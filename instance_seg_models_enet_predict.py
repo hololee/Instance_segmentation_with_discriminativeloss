@@ -2,7 +2,7 @@ import method as md
 import tensorflow as tf
 import numpy as np
 import os
-from DataGenTest import DataGen
+from DataGen import DataGen
 from placeHolders import placeHolders
 import config_etc
 import matplotlib.pyplot as plt
@@ -303,7 +303,7 @@ BATCH_COUNT = dataG.getTotalNumber() // config_etc.BATCH_SIZE
 saver = tf.train.Saver(max_to_keep=None)
 
 with tf.Session() as sess:
-    saver.restore(sess, tf.train.latest_checkpoint('./saved_models/'))
+    saver.restore(sess, tf.train.latest_checkpoint('./'))
 
     for batch_count in range(BATCH_COUNT):
 

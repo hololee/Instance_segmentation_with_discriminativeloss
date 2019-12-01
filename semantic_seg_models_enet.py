@@ -207,7 +207,7 @@ with tf.Session() as sess:
                     # save image.
                     suffix = current_milli_time()
                     scipy.misc.imsave(
-                        '/data1/LJH/cvpppnet/A1_predict_enet/plant_out_epc{}_{}.png'.format(epoch + 1, suffix),
+                        '/data1/LJH/Instance_segmentation_with_discriminativeloss/datset/result/semantic_seg/seg_out_epc{}_{}.png'.format(epoch + 1, suffix),
                         np.squeeze(image))
 
             if batch_count % 4 == 0:

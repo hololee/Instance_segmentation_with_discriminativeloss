@@ -17,7 +17,7 @@ threshold_val = 40
 current_milli_time = lambda: int(round(time.time() * 1000))
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 # ready dataset.
 dataG = DataGen()
@@ -347,7 +347,7 @@ with tf.Session() as sess:
                 for index, image in enumerate(image_result_predict):
                     # save image.
                     scipy.misc.imsave(
-                        '/data1/LJH/cvpppnet/A1_predict_enet/plant_out_epc{}_{}.png'.format(epoch + 1,
+                        '/data1/LJH/Instance_segmentation_with_discriminativeloss/datset/result/instance_seg/out_epc{}_{}.png'.format(epoch + 1,
                                                                                             current_milli_time()),
                         np.squeeze(image))
 
@@ -405,4 +405,4 @@ with tf.Session() as sess:
 
         if epoch == (config_etc.TOTAL_EPOCH - 1):
             # save model params.
-            saver.save(sess, '/data1/LJH/cvpppnet/saved_models/model')
+            saver.save(sess, '/data1/LJH/Instance_segmentation_with_discriminativeloss/model')

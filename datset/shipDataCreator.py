@@ -59,7 +59,7 @@ class dataCreator:
         img = Image.open(np.random.choice(self.back_list, 1)[0])
         # rotate background.
         self.background = img.rotate(np.random.choice(self.background_rotation, 1)[0])
-        self.background_gt = Image.new("RGB", size=(512, 512))
+        self.background_gt = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
 
     def _createShips(self):
         # choose number of ships.
@@ -97,26 +97,37 @@ class dataCreator:
             # ship_image_gt[ship_image_gt[:, :, 2] > 0, 2] = self.color_map[idx][2]
 
             ship_image_gt_layer = ship_image_gt[:, :, 3]
+            # plt.imshow(ship_image_gt_layer)
+            # plt.show()
             ship_image_gt = np.zeros(ship_image_gt[:, :, 0:3].shape, dtype='uint8')
             ship_image_gt[ship_image_gt_layer > 5, 0] = self.color_map[idx][0]
             ship_image_gt[ship_image_gt_layer > 5, 1] = self.color_map[idx][1]
             ship_image_gt[ship_image_gt_layer > 5, 2] = self.color_map[idx][2]
 
+            r, g, b = ship_image_gt[:, :, 0], ship_image_gt[:, :, 1], ship_image_gt[:, :, 2]
+            ship_image_gt_mask = 0.2989 * r + 0.5870 * g + 0.1140 * b
+            ship_image_gt_mask[ship_image_gt_mask > 0] = 255
+
+            ship_image_gt_mask = np.expand_dims(ship_image_gt_mask, -1)
+            ship_image_gt = np.concatenate([ship_image_gt, ship_image_gt_mask], -1).astype(np.uint8)
+
             ship_image_gt = Image.fromarray(ship_image_gt)
 
-            self.background_gt.paste(ship_image_gt, offset)
+            self.background_gt.paste(ship_image_gt, offset, ship_image_gt)
 
         box_image = box_image.filter(ImageFilter.GaussianBlur(radius=0.7))
         # self.background_gt = self.background_gt.filter(ImageFilter.GaussianBlur(radius=0.5))
 
         # change to rgb.
         print("finish.")
-        img = Image.new("RGB", box_image.size, (255, 255, 255))
+        img = Image.new("RGB", box_image.size, (0, 0, 0))
         img.paste(box_image, mask=box_image.split()[3])  # 3 is the alpha channel
 
-        # img.show()
-        return np.array(img), np.array(self.background_gt)
+        gt = Image.new("RGB", self.background_gt.size, (0, 0, 0))
+        gt.paste(self.background_gt, mask=self.background_gt.split()[3])  # 3 is the alpha channel
 
+        # img.show()
+        return np.array(img), np.array(gt)
 
     def generate_one(self):
         self._createBackgrounds()
@@ -136,11 +147,11 @@ class dataCreator:
 
 
 dataCreator = dataCreator()
-for i in range(20):
-    a, b, c = dataCreator.generate_one()
-    plt.imshow(a)
-    plt.show()
-    plt.imshow(b)
-    plt.show()
-    plt.imshow(c)
-    plt.show()
+for i in range(200):
+    origin, color, grayscale = dataCreator.generate_one()
+    misc.imsave('/data1/LJH/Instance_segmentation_with_discriminativeloss/datset/ouput/origin_{0:03d}.png'.format(i),
+                origin)
+    misc.imsave('/data1/LJH/Instance_segmentation_with_discriminativeloss/datset/ouput/color_{0:03d}.png'.format(i),
+                color)
+    misc.imsave('/data1/LJH/Instance_segmentation_with_discriminativeloss/datset/ouput/grayscale_{0:03d}.png'.format(i),
+                grayscale)
