@@ -147,11 +147,11 @@ class dataCreator:
 
 
 dataCreator = dataCreator()
-for i in range(200):
+for i in range(40):
     origin, color, grayscale = dataCreator.generate_one()
-    misc.imsave('/data1/LJH/Instance_segmentation_with_discriminativeloss/datset/ouput/origin_{0:03d}.png'.format(i),
+    misc.imsave('/data1/LJH/Instance_segmentation_with_discriminativeloss/datset/test/origin_{0:03d}.png'.format(i),
                 origin)
-    misc.imsave('/data1/LJH/Instance_segmentation_with_discriminativeloss/datset/ouput/color_{0:03d}.png'.format(i),
+    misc.imsave('/data1/LJH/Instance_segmentation_with_discriminativeloss/datset/test/color_{0:03d}.png'.format(i),
                 color)
-    misc.imsave('/data1/LJH/Instance_segmentation_with_discriminativeloss/datset/ouput/grayscale_{0:03d}.png'.format(i),
+    misc.imsave('/data1/LJH/Instance_segmentation_with_discriminativeloss/datset/test/grayscale_{0:03d}.png'.format(i),
                 grayscale)
