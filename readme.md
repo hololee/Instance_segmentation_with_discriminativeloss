@@ -9,10 +9,12 @@ I just create dataset using ship images which randomly placed on the generated o
 
 #### Structure  
 main structure of this network can be expressed like below.  
-![structure]()  
+  
+![structure](https://github.com/hololee/Instance_segmentation_with_discriminativeloss/blob/master/structure.png?raw=true)  
 
-#### Result
-![result]()  
+#### Result  
+
+![result](https://github.com/hololee/Instance_segmentation_with_discriminativeloss/blob/master/result.png?raw=true)  
 
 
 
